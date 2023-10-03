@@ -1,0 +1,16 @@
+#creatediv {
+    display: flex;
+    flex-direction: column;
+    border: solid 2px;
+    width: fit-content;
+    text-align: center;
+}
+
+p {
+    margin: 0;
+    color: red;
+}
+
+h2 {
+    margin: 0;
+}
