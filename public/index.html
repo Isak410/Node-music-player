@@ -11,16 +11,17 @@
 
     <div id="creatediv">
         <h2>Create new song</h2>
-        <form action="" enctype="multipart/form-data" id="uploadFrom">
-            <input placeholder="Song name..." ="text" class="inputs" id="input1"><br>
-            <input placeholder="Artist..." ="text" class="inputs" id="input2"><br>
-            <input placeholder="Album..." ="text" class="inputs" id="input3"><br>
-            <input type="file" name="mp3File" class="inputs" id="input4"><br>
+        <form>
+            <input placeholder="Song name..." ="text" class="inputs" name="song_name" id="input1"><br>
+            <input placeholder="Artist..." ="text" class="inputs" name="artist" id="input2"><br>
+            <input placeholder="Album..." ="text" class="inputs" name="Album" id="input3"><br>
+            <input type="file" name="file" class="inputs" id="input4"><br>
             <p id="retField"> </p>
-            <button id="createbutton">Create</button>
+            <button type="submit" id="createbutton">Create</button>
         </form>
     </div>
-
+    <button id="loadSongs">Load</button>
+    <input type="number" id="numberInput">
     <script src="./js/script.js"></script>
 </body>
 </html>
