@@ -22,7 +22,7 @@ const storage = multer.diskStorage({
 const upload = multer({storage})
 
   app.post('/insert-object', upload.single('mp3File'), (req, res) => {
-
+    console.log(req.body)
 
     //const { name, artist, album, audiofile } = req.body;
     //console.log(audiofile)
