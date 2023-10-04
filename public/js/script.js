@@ -16,46 +16,29 @@ function createPressed() {
             retField.textContent = "Filetype must be mp3"; return;}
     retField.textContent = ""
 
-    var arr = []
-    var audioUrl = URL.createObjectURL(selectFile.files[0])
-    for (let t = 1; t < 4; t++ ) {arr[t-1] = (document.getElementById('input'+t).value)}
-    var songObj = {
-        "name": arr[0],
-        "artist": arr[1],
-        "album": arr[2],
-        "audiofile": audioUrl
-    }
-
-    
-    console.log(audioUrl)
-    //console.log(songObj)
-    //console.log(songObj.audiofile)
-    //playAudio(songObj) //test om filen er lastet opp korrekt
-
+    const form = document.getElementById('uploadForm')
+    const formData = new FormData(form)
     
     fetch('/insert-object', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(songObj), // Send the data to insert in the request body
+        body: formData, // Send the data to insert in the request body
       })
-        .then(response => {
-          response.json()
-          console.log("Data inserted successfully")
-        })
-        .then(data => {
-          console.log(data.message)
-        })
-        .catch(error => {
-          console.log('Error: ' + error);
-        });
+      .then(response => response.text())
+      .then(message => {
+        console.log(message);
+        // Handle success (e.g., show a success message to the user)
+      })
+      .catch(error => {
+        console.error('Error uploading file:', error.message);
+        // Handle error (e.g., show an error message to the user)
+      });
 }
 
 function playAudio(songObj) {
-    const audioUrl = URL.createObjectURL(songObj.audiofile)
-
-    const audio = new Audio(audioUrl);
+    const audio = new Audio(songObj.audiofile);
     audio.play();
 }
 
