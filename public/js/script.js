@@ -49,7 +49,6 @@ function loadSongs() {
   .then(res => res.json())
   .then (data => {
     const parsedData = data
-    playSpecificSong(parsedData)
     displaySongs(parsedData)
   })
 }
