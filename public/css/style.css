@@ -38,3 +38,12 @@ h2 {
 #numberInput {
     width: 30px;
 }
+
+#newDiv {
+    display: flex;
+    flex-direction: column;
+    border: solid 2px;
+    border-radius: 5px;
+    width: fit-content;
+    padding: 5px;
+}
