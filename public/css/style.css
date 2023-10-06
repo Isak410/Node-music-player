@@ -28,7 +28,6 @@ input {
 
 p {
     margin: 0;
-    color: red;
 }
 
 h2 {
@@ -39,11 +38,33 @@ h2 {
     width: 30px;
 }
 
-#newDiv {
+
+
+.newDiv {
     display: flex;
     flex-direction: column;
-    border: solid 2px;
+    border: solid 3px;
     border-radius: 5px;
     width: fit-content;
-    padding: 5px;
+    padding: 8px;
+    padding-bottom: 5px;
+    background-color: gray;
+    margin: 10px;
+}
+
+#textNavn {
+    color: rgb(0, 0, 0);
+    font-size: 1.5em;
+}
+
+
+#textAlbum {
+    padding-bottom: 5px;
+    color: rgb(0, 0, 0);
+}
+
+.delButtons {
+    margin-top: 5px;
+    color: red;
+    border-radius: 5px;
 }

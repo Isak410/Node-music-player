@@ -22,7 +22,6 @@ form.addEventListener('submit', (e) => {
       if (fileName.includes(' ')){retField.innerHTML = "filename must not contain spaces"; return;}
   retField.textContent = ""
 
-  
   const formData = new FormData()
   formData.append("song_name", nameField.value)
   formData.append("artist", ArtistField.value)
@@ -30,13 +29,17 @@ form.addEventListener('submit', (e) => {
   formData.append("file", selectFile.files[0]);
 
   console.log(...formData)
-  
   fetch('http://127.0.0.1:8080/uploads', {
     method: 'POST',
     body: formData,
   })
   .then(res => res.json())
   .then(data => console.log(data))
+  .then(
+    setTimeout(() => {
+      loadSongs()
+    }, 20)
+    )
 });
 
 function playAudio(songObj) {
@@ -62,28 +65,62 @@ function playSpecificSong(parsedData) {
 
 function displaySongs(parsedData) {
   console.log(parsedData)
-
-  for (let i = 0; i < parsedData.songInfo.length; i++) {
-    var navn = document.createTextNode(parsedData.songInfo[i].song_name)
-    var artist = document.createTextNode(parsedData.songInfo[i].artist)
-    var album = document.createTextNode(parsedData.songInfo[i].album)
-    var audioplayer = document.createElement("audio")
-    audioplayer.src = parsedData.songInfo[i].filepath
-    audioplayer.type="audio/mp3"
-    audioplayer.controls = true
-    var newDiv = document.createElement("div")
-    newDiv.id = "newDiv"
-    newDiv.appendChild(navn)
-    newDiv.appendChild(document.createElement("br"))
-    newDiv.appendChild(artist)
-    newDiv.appendChild(document.createElement("br"))
-    newDiv.appendChild(album)
-    newDiv.appendChild(document.createElement("br"))
-    newDiv.appendChild(audioplayer)
-    console.log(newDiv)
-    songDiv.appendChild(newDiv)
-  }
+songDiv.textContent = ""
+for (let i = 0; i < parsedData.songInfo.length; i++) {
+  var arr = [parsedData.songInfo[i].song_name, parsedData.songInfo[i].artist, parsedData.songInfo[i].album]
+  var newDiv = document.createElement("div")
+  newDiv.className = "newDiv"
+  newDiv.id = parsedData.songInfo[i].song_id
+  var audioplayer = document.createElement("audio")
+  var navn = document.createElement("p"); navn.textContent = arr[0]; navn.id = "textNavn"
+  var artist = document.createElement("p"); artist.textContent = arr[1]; artist.id = "textArtist"
+  var album = document.createElement("p"); album.textContent = "Album: "+arr[2]; album.id = "textAlbum"
+  newDiv.appendChild(navn);
+  newDiv.appendChild(artist);
+  newDiv.appendChild(album);
+  
+  audioplayer.src = parsedData.songInfo[i].filepath
+  audioplayer.type="audio/mp3"
+  audioplayer.controls = true
+  audioplayer.id = "audioPlayers"
+  newDiv.appendChild(audioplayer)
+  var delKnapp = document.createElement("button")
+  delKnapp.textContent = "Delete"
+  delKnapp.className = "delButtons"
+  var delid = parsedData.songInfo[i].song_id
+    delKnapp.addEventListener('click', (function(id) {
+      return function() {
+        deleteFunc(id);
+      };
+    })(delid));
+  newDiv.appendChild(delKnapp)
+  songDiv.appendChild(newDiv)
+}
 }
 
+function deleteFunc(id) {
+  console.log(id)
+  var testObj = {"id": ""}
+  testObj.id = id
+  fetch('http://127.0.0.1:8080/delete-song', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(testObj),
+  })
+  .then(res => res.json())
+  .then((data => {
+    const parsedData = data
+    console.log(parsedData)
+  }))
+  .then(
+    setTimeout(() => {
+      location.reload()
+    }, 10)
+  )
+}
+
+loadSongs()
 
 loadButton.addEventListener('click', loadSongs)

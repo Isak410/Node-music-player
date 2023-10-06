@@ -41,6 +41,32 @@ app.get("/get-songs", (req, res) => {
   })
 })
 
+app.post("/delete-song", (req, res) => {
+  const { id } = req.body;
+  //console.log(id);
+  var dataFromJSON = {}
+  fs.readFile(__dirname + '/public/AudioFiles/objects.json', 'utf-8', function(err,data){
+    if(err)console.log(err)
+    else{
+    dataFromJSON = JSON.parse(data)
+    dataFromJSON.songInfo.splice(id, 1)
+    for (let i = 0; i < dataFromJSON.songInfo.length; i++) {
+      dataFromJSON.songInfo[i].song_id = i
+    }
+    }
+  })
+  setTimeout(() => {
+    fs.writeFile(__dirname + '/public/AudioFiles/objects.json', JSON.stringify(dataFromJSON), function (err){
+    if(err) console.log(err);
+    else console.log("Successfully wrote file");
+    res.json("Successfully deleted song")
+    });
+    
+  }, 10);
+  
+  
+})
+
 app.post("/uploads", uploads.array("file"), (req, res) => {
   console.log(req.body)
   fs.readdir(dir, (err, files) => {console.log(files.length)});
@@ -57,6 +83,7 @@ fs.readFile(__dirname + '/public/AudioFiles/objects.json', 'utf8', function(err,
     dataFromJSONFile = JSON.parse(data);
 
     var myObj = {
+      "song_id": dataFromJSONFile.songInfo.length,
       "song_name": req.body.song_name,
       "artist": req.body.artist,
       "album": req.body.album,
