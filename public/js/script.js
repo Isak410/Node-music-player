@@ -116,8 +116,8 @@ function deleteFunc(id) {
   }))
   .then(
     setTimeout(() => {
-      location.reload()
-    }, 10)
+      loadSongs()
+    }, 30)
   )
 }
 

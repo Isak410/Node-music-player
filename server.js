@@ -11,9 +11,6 @@ fs.readdir(dir, (err, files) => {return(files.length)});
 }
 
 
-
-
-
 app.use(express.json());
 app.use(cors()) // tillater forespørsler fra hvilken som helst ip
 
@@ -49,11 +46,28 @@ app.post("/delete-song", (req, res) => {
     if(err)console.log(err)
     else{
     dataFromJSON = JSON.parse(data)
+    var tall = 0
+    for (let t = 0; t < dataFromJSON.songInfo.length; t++) {
+      if (dataFromJSON.songInfo[t].filepath == dataFromJSON.songInfo[id].filepath)  {
+        tall++
+        console.log(tall)
+      }
+    }
+    if (tall > 1) {console.log("yap yap")} else {
+      var newStr = dataFromJSON.songInfo[id].filepath.slice(2)
+      var newStr1 = ("public\\"+newStr)
+      fs.unlink((newStr1), (err) => {
+      if (err) {
+        console.log("feil")
+        console.log(err)
+        return;
+      }
+      console.log("file successfully deleted")
+    })}
     dataFromJSON.songInfo.splice(id, 1)
     for (let i = 0; i < dataFromJSON.songInfo.length; i++) {
       dataFromJSON.songInfo[i].song_id = i
-    }
-    }
+    }}
   })
   setTimeout(() => {
     fs.writeFile(__dirname + '/public/AudioFiles/objects.json', JSON.stringify(dataFromJSON), function (err){
@@ -63,8 +77,6 @@ app.post("/delete-song", (req, res) => {
     });
     
   }, 10);
-  
-  
 })
 
 app.post("/uploads", uploads.array("file"), (req, res) => {
@@ -109,7 +121,6 @@ fs.readFile(__dirname + '/public/AudioFiles/objects.json', 'utf8', function(err,
 });
 })
 app.use(express.static('public'));
-
 
 
 app.listen(port, () => {
