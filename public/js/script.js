@@ -29,7 +29,7 @@ form.addEventListener('submit', (e) => {
   formData.append("file", selectFile.files[0]);
 
   console.log(...formData)
-  fetch('http://127.0.0.1:8080/uploads', {
+  fetch('/uploads', {
     method: 'POST',
     body: formData,
   })
@@ -48,7 +48,7 @@ function playAudio(songObj) {
 }
 
 function loadSongs() {
-  fetch('http://127.0.0.1:8080/get-songs')
+  fetch('/get-songs')
   .then(res => res.json())
   .then (data => {
     const parsedData = data
@@ -102,7 +102,7 @@ function deleteFunc(id) {
   console.log(id)
   var testObj = {"id": ""}
   testObj.id = id
-  fetch('http://127.0.0.1:8080/delete-song', {
+  fetch('/delete-song', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
@@ -120,6 +120,8 @@ function deleteFunc(id) {
     }, 30)
   )
 }
+
+
 
 loadSongs()
 
