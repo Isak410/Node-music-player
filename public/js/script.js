@@ -72,9 +72,9 @@ for (let i = 0; i < parsedData.songInfo.length; i++) {
   newDiv.className = "newDiv"
   newDiv.id = parsedData.songInfo[i].song_id
   var audioplayer = document.createElement("audio")
-  var navn = document.createElement("p"); navn.textContent = arr[0]; navn.id = "textNavn"
-  var artist = document.createElement("p"); artist.textContent = arr[1]; artist.id = "textArtist"
-  var album = document.createElement("p"); album.textContent = "Album: "+arr[2]; album.id = "textAlbum"
+  var navn = document.createElement("p"); navn.textContent = arr[0]; navn.id = "textNavn"; navn.className = "pKlasse"
+  var artist = document.createElement("p"); artist.textContent = arr[1]; artist.id = "textArtist"; artist.className = "pKlasse"
+  var album = document.createElement("p"); album.textContent = "Album: "+arr[2]; album.id = "textAlbum"; album.className = "pKlasse"
   newDiv.appendChild(navn);
   newDiv.appendChild(artist);
   newDiv.appendChild(album);
