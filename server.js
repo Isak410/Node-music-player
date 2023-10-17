@@ -124,5 +124,5 @@ app.use(express.static('public'));
 
 
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log("Server running on 127.0.0.1:"+port);
 })
